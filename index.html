@@ -98,18 +98,7 @@
     background:#000; border-radius:50px; padding:8px;
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
   }
-  /* Dynamic Island */
-  .phone-inner::before{
-    content:""; position:absolute; top:14px; left:50%; transform:translateX(-50%);
-    width:96px; height:30px; background:#000; border-radius:18px; z-index:10;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
-  }
-  /* tiny camera dot in island */
-  .phone-inner::after{
-    content:""; position:absolute; top:23px; left:calc(50% + 28px); transform:translateX(-50%);
-    width:8px; height:8px; background:#0a0a0c; border-radius:50%; z-index:11;
-    box-shadow:inset 0 0 0 1px rgba(80,90,120,.4), 0 0 0 1px rgba(255,255,255,.03);
-  }
+  /* Dynamic Island disabled — screenshot already contains one */
 
   /* side buttons */
   .phone .btn-side{
@@ -125,50 +114,90 @@
     position:relative; width:100%; height:100%; border-radius:42px; overflow:hidden;
     background:linear-gradient(180deg,#F6F7FB 0%, #EAEEF7 100%);
   }
+  .phone-screen{ background:#fff !important; }
   .status-bar{
     display:flex; justify-content:space-between; align-items:center;
-    padding:14px 22px 4px; font-size:13px; font-weight:600; color:var(--gray);
+    padding:14px 22px 6px; font-size:13px; font-weight:600; color:#000;
   }
-  .status-bar .right{ display:flex; gap:5px; align-items:center; }
+  .status-bar .right{ display:flex; gap:4px; align-items:center; font-size:11px; }
 
-  .app-header{ padding:8px 18px 0; display:flex; justify-content:space-between; align-items:center;}
-  .app-header h3{ font-family:'Plus Jakarta Sans'; font-weight:800; font-size:1.25rem; color:var(--blue); letter-spacing:-.02em;}
+  .app-header{ padding:14px 18px 8px; display:flex; justify-content:space-between; align-items:center;}
+  .app-header h3{ font-family:'Plus Jakarta Sans'; font-weight:800; font-size:1.45rem; color:#000; letter-spacing:-.02em;}
+  .app-header .icons{ display:flex; gap:14px; color:#000;}
   .app-search{
-    margin:14px 18px 12px; background:#fff; border-radius:14px; padding:.6rem .8rem;
-    display:flex; align-items:center; gap:.5rem; box-shadow:0 4px 14px -8px rgba(11,31,77,.2);
+    margin:6px 18px 14px; background:#F2F2F4; border-radius:999px; padding:.65rem 1rem;
+    display:flex; align-items:center; gap:.55rem;
     font-size:.78rem; color:#9aa1b0;
   }
-  .cat-row{ display:flex; gap:8px; padding:0 18px 14px; overflow:hidden; }
-  .cat{ background:#fff; padding:.4rem .7rem; border-radius:999px; font-size:.7rem; font-weight:600; color:var(--gray); white-space:nowrap; border:1px solid var(--line); }
-  .cat.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .app-search .right-ic{ margin-left:auto; color:#6b7280; }
+  .cat-row{ display:flex; gap:8px; padding:0 18px 16px; overflow:hidden; }
+  .cat{ background:transparent; padding:.5rem 1rem; border-radius:999px; font-size:.78rem; font-weight:600; color:#000; white-space:nowrap; border:1px solid #E5E7EB; }
+  .cat.active{ background:#E8EAEE; border-color:#E8EAEE; }
 
-  .store-card{
-    margin:0 18px 12px; padding:.7rem; border-radius:18px; background:#fff;
-    display:flex; gap:.7rem; align-items:center; box-shadow:0 4px 16px -10px rgba(11,31,77,.18);
+  .section-title{ display:flex; align-items:center; justify-content:space-between; padding:0 18px 10px;}
+  .section-title h4{ font-family:'Plus Jakarta Sans'; font-weight:800; font-size:1.2rem; color:#000; display:flex; align-items:center; gap:.4rem;}
+  .section-title .view-more{ font-size:.7rem; padding:.35rem .75rem; border-radius:999px; border:1px solid #E5E7EB; color:#000; font-weight:600;}
+
+  .trend-card{
+    margin:0 18px 14px; border-radius:22px; overflow:hidden; position:relative;
+    background:linear-gradient(135deg,#EFEAE0 0%, #E8E1D2 100%);
+    height:152px; padding:14px;
   }
-  .store-thumb{ width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg,#0B1F4D,#1E3FA6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-family:'Plus Jakarta Sans'; font-size:.95rem; flex-shrink:0;}
-  .store-card .name{ font-weight:700; font-size:.82rem; color:var(--gray); }
-  .store-card .meta{ font-size:.66rem; color:var(--gray-soft); display:flex; gap:.4rem; align-items:center; margin-top:2px;}
-  .store-card .star{ color:#F59E0B; }
-  .badge-live{ margin-left:auto; background:rgba(34,197,94,.12); color:#16A34A; font-size:.6rem; padding:.2rem .45rem; border-radius:6px; font-weight:700;}
+  .trend-card .t-title{ font-family:'Plus Jakarta Sans'; font-weight:800; font-size:1rem; color:#1a1a1a; line-height:1.05; max-width:50%;}
+  .trend-card .pill{ background:#7B1F2F; color:#fff; font-size:.6rem; padding:.2rem .55rem; border-radius:999px; display:inline-block; margin-top:8px; font-weight:600;}
+  .trend-card .pill.alt{ background:#A8463E; margin-left:4px;}
+  .trend-card .shop-now{
+    position:absolute; bottom:14px; left:14px; background:#fff; border-radius:999px;
+    padding:.55rem 1.1rem; font-size:.78rem; font-weight:700; color:#000;
+    box-shadow:0 4px 14px -6px rgba(0,0,0,.2);
+  }
+  .trend-card .collage{ position:absolute; right:8px; top:10px; width:55%; height:90%; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:6px;}
+  .trend-card .collage div{ border-radius:10px; background-size:cover; background-position:center;}
+  .trend-card .collage div:nth-child(1){ background:linear-gradient(135deg,#D4C8B8,#C5B89F);}
+  .trend-card .collage div:nth-child(2){ background:linear-gradient(135deg,#A89070,#8B7355);}
+  .trend-card .collage div:nth-child(3){ background:linear-gradient(135deg,#E8C39A,#D4A574);}
+  .trend-card .collage div:nth-child(4){ background:linear-gradient(135deg,#7A8B9A,#5A6B7A);}
+
+  .dots{ display:flex; justify-content:center; gap:5px; padding:2px 0 14px;}
+  .dots span{ width:5px; height:5px; border-radius:50%; background:#D1D5DB;}
+  .dots span.active{ background:#000; width:14px; border-radius:3px;}
 
   .products{ display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 18px 18px;}
   .product{
-    background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 4px 14px -10px rgba(11,31,77,.2);
+    border-radius:14px; overflow:hidden; position:relative;
   }
-  .product .img{ height:78px; background:linear-gradient(135deg,#E0E7FF,#C7D2FE); position:relative;}
-  .product .img.alt{ background:linear-gradient(135deg,#FCE7F3,#FBCFE8);}
-  .product .img.alt2{ background:linear-gradient(135deg,#FEF3C7,#FDE68A);}
-  .product .img.alt3{ background:linear-gradient(135deg,#D1FAE5,#A7F3D0);}
-  .product .info{ padding:.5rem .6rem .6rem; }
-  .product .info .t{ font-size:.7rem; font-weight:600; color:var(--gray);}
-  .product .info .p{ font-size:.7rem; font-weight:700; color:var(--blue); margin-top:2px;}
-  .heart{ position:absolute; top:6px; right:6px; width:22px; height:22px; background:rgba(255,255,255,.9); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; color:#EF4444;}
+  .product .img{ height:130px; position:relative; border-radius:14px;}
+  .product .img.hoodie1{ background:linear-gradient(135deg,#6B6B6B 0%, #4a4a4a 100%);}
+  .product .img.hoodie1::before{
+    content:""; position:absolute; left:14%; top:18%; width:36%; height:65%;
+    background:linear-gradient(160deg, #C8202D 0%, #C8202D 35%, #1E3A8A 35%, #1E3A8A 100%);
+    border-radius:8px 8px 6px 6px;
+  }
+  .product .img.hoodie1::after{
+    content:""; position:absolute; right:14%; top:22%; width:36%; height:60%;
+    background:linear-gradient(160deg, #C8202D 0%, #C8202D 32%, #1E3A8A 32%, #1E3A8A 100%);
+    border-radius:8px 8px 6px 6px;
+  }
+  .product .img.hoodie2{ background:linear-gradient(135deg,#3F3F3F 0%, #2a2a2a 100%);}
+  .product .img.hoodie2::before{
+    content:""; position:absolute; left:10%; top:22%; width:42%; height:62%;
+    background:linear-gradient(160deg, #6B8FB8 0%, #4A6F94 100%);
+    border-radius:10px;
+  }
+  .product .img.hoodie2::after{
+    content:""; position:absolute; right:10%; top:24%; width:42%; height:60%;
+    background:linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 100%);
+    border-radius:10px;
+  }
+  .product .info{ padding:.5rem .2rem .3rem; }
+  .product .info .t{ font-size:.82rem; font-weight:700; color:#000; line-height:1.15;}
+  .heart{ position:absolute; top:8px; right:8px; width:26px; height:26px; background:rgba(255,255,255,.95); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#374151;}
 
-  .tabbar{ position:absolute; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--line); padding:10px 22px 24px; display:flex; justify-content:space-between; align-items:center;}
-  .tab{ display:flex; flex-direction:column; align-items:center; font-size:.55rem; color:var(--gray-soft); gap:3px; font-weight:600;}
-  .tab.active{ color:var(--blue);}
-  .tab-icon{ width:22px; height:22px; display:flex; align-items:center; justify-content:center;}
+  .tabbar{ position:absolute; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #f0f0f3; padding:8px 14px 22px; display:flex; justify-content:space-between; align-items:center;}
+  .tab{ display:flex; flex-direction:column; align-items:center; font-size:.6rem; color:#6b7280; gap:3px; font-weight:600; flex:1;}
+  .tab.active{ color:#0B1F4D;}
+  .tab.active .tab-icon{ background:#E8EEF8; border-radius:12px; padding:6px 14px;}
+  .tab-icon{ width:auto; height:24px; display:flex; align-items:center; justify-content:center; padding:4px 10px;}
 
   /* Floating UI cards around phone */
   .float-card{
@@ -199,6 +228,9 @@
 
   /* marquee */
   .marquee{ display:flex; gap:3rem; animation:scroll 28s linear infinite; }
+  .m-item{ display:inline-flex; align-items:center; gap:.55rem; color:var(--gray-soft); }
+  .m-item svg{ color:var(--blue); }
+  .heart{ display:inline-flex; align-items:center; justify-content:center; }
   @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
   /* step */
@@ -252,13 +284,7 @@
 <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-white/70 border-b border-black/5">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
     <a href="#" class="flex items-center gap-2.5 logo-shake">
-      <!-- inline logo -->
-      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-        <path d="M28 38 L72 28 L80 80 L22 80 Z" stroke="#0B1F4D" stroke-width="6" stroke-linejoin="round" fill="none"/>
-        <path d="M40 38 C40 26, 60 26, 60 38" stroke="#0B1F4D" stroke-width="6" fill="none" stroke-linecap="round"/>
-        <circle cx="40" cy="42" r="5" fill="#0B1F4D"/>
-        <circle cx="60" cy="42" r="5" fill="#0B1F4D"/>
-      </svg>
+      <img src="img/logo.jpg" alt="StyleON" width="36" height="36" style="object-fit:contain;" />
       <span class="display font-extrabold text-xl" style="color:var(--blue)">Style<span style="color:var(--gray)">ON</span></span>
     </a>
 
@@ -295,7 +321,7 @@
         Stop scrolling endless WhatsApp statuses. <span class="font-semibold" style="color:var(--gray)">StyleON</span> brings every fashion seller in your city into one beautiful app — rent a digital store, list your items, and get them delivered to customers' doorsteps.
       </p>
 
-      <div class="reveal mt-9 flex flex-col sm:flex-row gap-3">
+      <div class="reveal mt-9 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-3 max-w-md">
         <a href="#" class="store-badge">
           <svg width="22" height="22" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM282.2 87.4c17.6-20.9 16-39.9 15.5-46.7-15.6.9-33.7 10.6-44 22.6-11.4 12.9-18.1 28.9-16.7 46.4 16.9 1.3 32.2-7.4 45.2-22.3z"/></svg>
           <div>
@@ -310,19 +336,20 @@
             <div class="sub">Google Play</div>
           </div>
         </a>
-      </div>
-
-      <div class="reveal mt-10 flex items-center gap-5">
-        <div class="flex -space-x-3">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 border-2 border-white"></div>
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-700 border-2 border-white"></div>
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white"></div>
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 border-2 border-white"></div>
-        </div>
-        <div>
-          <div class="font-bold" style="color:var(--gray)"><span data-count="2847">0</span>+ on the waitlist</div>
-          <div class="text-xs text-[var(--gray-soft)]">joining from across the country</div>
-        </div>
+        <a href="#" class="store-badge">
+          <svg width="22" height="22" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM282.2 87.4c17.6-20.9 16-39.9 15.5-46.7-15.6.9-33.7 10.6-44 22.6-11.4 12.9-18.1 28.9-16.7 46.4 16.9 1.3 32.2-7.4 45.2-22.3z"/></svg>
+          <div>
+            <div class="ttl">Download for</div>
+            <div class="sub">Mac</div>
+          </div>
+        </a>
+        <a href="#" class="store-badge">
+          <svg width="22" height="22" viewBox="0 0 448 512" fill="currentColor"><path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v178zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+          <div>
+            <div class="ttl">Download for</div>
+            <div class="sub">Windows</div>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -357,7 +384,7 @@
         </div>
         <div>
           <div class="ttl">Wishlisted</div>
-          <div class="v">4.9 ★ rating</div>
+          <div class="v">4.9 rating</div>
         </div>
       </div>
 
@@ -369,69 +396,103 @@
         <span class="btn-side btn-power"></span>
         <div class="phone-inner">
         <div class="phone-screen">
+          <img src="img/app-screen.jpg" alt="StyleON app screen" style="width:100%; height:100%; object-fit:cover; display:block;" />
+          <!-- legacy content kept below (hidden) for ease of restore -->
+          <div style="display:none">
           <div class="status-bar">
-            <span>9:41</span>
+            <span>6:22</span>
             <div class="right">
-              <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M1 8h2v2H1zm4-2h2v4H5zm4-2h2v6H9zm4-2h2v8h-2z"/></svg>
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4c1.5-2 4-3 6-3s4.5 1 6 3M3 6c1-1.2 2.5-2 4-2s3 .8 4 2"/><circle cx="7" cy="8.5" r="1" fill="currentColor"/></svg>
-              <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="1" y="1" width="18" height="9" rx="2" stroke="currentColor"/><rect x="3" y="3" width="14" height="5" rx="1" fill="currentColor"/><rect x="20" y="4" width="1.5" height="3" rx=".5" fill="currentColor"/></svg>
+              <svg width="16" height="10" viewBox="0 0 16 10" fill="currentColor"><rect x="0" y="6" width="2.5" height="4" rx=".5"/><rect x="4" y="4" width="2.5" height="6" rx=".5"/><rect x="8" y="2" width="2.5" height="8" rx=".5"/><rect x="12" y="0" width="2.5" height="10" rx=".5"/></svg>
+              <span style="font-weight:700; letter-spacing:.02em;">LTE</span>
+              <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x="1" y="1" width="19" height="10" rx="2.5" stroke="currentColor" stroke-width="1"/><rect x="3" y="3" width="7" height="6" rx="1" fill="currentColor"/><rect x="21" y="4" width="1.5" height="4" rx=".5" fill="currentColor"/></svg>
             </div>
           </div>
 
           <div class="app-header">
-            <div>
-              <div style="font-size:.7rem; color:var(--gray-soft); font-weight:500;">Good morning, Ama</div>
-              <h3>Discover Stores</h3>
+            <h3>StyleON</h3>
+            <div class="icons">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M5.5 19a7 7 0 0113 0"/></svg>
             </div>
-            <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#F472B6,#EC4899); display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.78rem;">A</div>
           </div>
 
           <div class="app-search">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-            Search "kente two-piece"...
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9aa1b0" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            Search
+            <svg class="right-ic" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
           </div>
 
           <div class="cat-row">
             <div class="cat active">All</div>
-            <div class="cat">Women</div>
-            <div class="cat">Men</div>
-            <div class="cat">Shoes</div>
-            <div class="cat">Bags</div>
+            <div class="cat">Hoodies</div>
+            <div class="cat">Tops</div>
+            <div class="cat">Shirts</div>
           </div>
 
-          <div class="store-card">
-            <div class="store-thumb">LB</div>
-            <div>
-              <div class="name">Lush Boutique</div>
-              <div class="meta"><span class="star">★</span> 4.9 · 320 sales</div>
+          <div class="section-title">
+            <h4>Trending
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#F97316"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></svg>
+            </h4>
+          </div>
+
+          <div class="trend-card">
+            <div class="collage">
+              <div></div><div></div><div></div><div></div>
             </div>
-            <span class="badge-live">LIVE</span>
+            <div class="t-title">new items<br>just arrived</div>
+            <div style="margin-top:4px;">
+              <span class="pill">buy now</span>
+              <span class="pill alt">explore</span>
+            </div>
+            <div class="shop-now">Shop Now</div>
+          </div>
+
+          <div class="dots">
+            <span class="active"></span><span></span><span></span>
+          </div>
+
+          <div class="section-title">
+            <h4>Hoodies</h4>
+            <div class="view-more">View more</div>
           </div>
 
           <div class="products">
             <div class="product">
-              <div class="img"><div class="heart">♥</div></div>
-              <div class="info"><div class="t">Linen Two-Piece</div><div class="p">₵180</div></div>
+              <div class="img hoodie1">
+                <div class="heart"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+              </div>
+              <div class="info"><div class="t">Saint Vanity<br>Hoodie</div></div>
             </div>
             <div class="product">
-              <div class="img alt"><div class="heart">♥</div></div>
-              <div class="info"><div class="t">Silk Wrap Top</div><div class="p">₵95</div></div>
-            </div>
-            <div class="product">
-              <div class="img alt2"><div class="heart">♥</div></div>
-              <div class="info"><div class="t">Suede Heels</div><div class="p">₵240</div></div>
-            </div>
-            <div class="product">
-              <div class="img alt3"><div class="heart">♥</div></div>
-              <div class="info"><div class="t">Mini Tote</div><div class="p">₵120</div></div>
+              <div class="img hoodie2">
+                <div class="heart"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+              </div>
+              <div class="info"><div class="t">Diesel Denim<br>Hoodies</div></div>
             </div>
           </div>
 
           <div class="tabbar">
-            <div class="tab active"><div class="tab-icon"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-4v-6h-4v6H6v-9H3z"/></svg></div>Home</div>
-            <div class="tab"><div class="tab-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>Explore</div>
-            <div class="tab"><div class="tab-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg></div>Cart</div>
-            <div class="tab"><div class="tab-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg></div>Profile</div>
+            <div class="tab active">
+              <div class="tab-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
+              Home
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5M3 9v11h18V9M3 9h18"/></svg></div>
+              Stores
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+              Inbox
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></div>
+              Orders
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+              Liked
+            </div>
+          </div>
           </div>
         </div>
         </div>
@@ -444,8 +505,8 @@
     <p class="text-center text-xs font-semibold tracking-widest text-[var(--gray-soft)] uppercase mb-6">Built for sellers, designed for shoppers</p>
     <div class="overflow-hidden" style="mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
       <div class="marquee text-[var(--gray-soft)] font-semibold text-lg whitespace-nowrap">
-        <span>🛍️ Rent a Store</span><span>📦 Same-day Delivery</span><span>💎 Verified Sellers</span><span>📱 Live Drops</span><span>💳 Secure Checkout</span><span>⭐ Buyer Protection</span>
-        <span>🛍️ Rent a Store</span><span>📦 Same-day Delivery</span><span>💎 Verified Sellers</span><span>📱 Live Drops</span><span>💳 Secure Checkout</span><span>⭐ Buyer Protection</span>
+        <span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg> Rent a Store</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg> Same-day Delivery</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg> Verified Sellers</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg> Live Drops</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg> Secure Checkout</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l9 4v6c0 5-3.5 9-9 10C6.5 21 3 17 3 12V6z"/><path d="M9 12l2 2 4-4"/></svg> Buyer Protection</span>
+        <span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg> Rent a Store</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg> Same-day Delivery</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg> Verified Sellers</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg> Live Drops</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg> Secure Checkout</span><span class="m-item"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l9 4v6c0 5-3.5 9-9 10C6.5 21 3 17 3 12V6z"/><path d="M9 12l2 2 4-4"/></svg> Buyer Protection</span>
       </div>
     </div>
   </div>
@@ -552,7 +613,7 @@
           <div class="text-sm text-[var(--gray-soft)] mt-1">Order tracking</div>
         </div>
         <div>
-          <div class="stat-num"><span data-count="5">0</span>★</div>
+          <div class="stat-num flex items-center gap-1"><span data-count="5">0</span><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
           <div class="text-sm text-[var(--gray-soft)] mt-1">Seller support</div>
         </div>
       </div>
@@ -597,7 +658,7 @@
             </div>
             <div class="rounded-xl p-3" style="background:var(--bg)">
               <div class="text-xs" style="color:var(--gray-soft)">Reviews</div>
-              <div class="font-extrabold text-xl display" style="color:var(--gray)">4.9★</div>
+              <div class="font-extrabold text-xl display flex items-center gap-1" style="color:var(--gray)">4.9 <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
             </div>
           </div>
 
@@ -640,8 +701,7 @@
   </div>
 
   <div class="relative max-w-3xl mx-auto px-6 text-center">
-    <div class="chip reveal" style="background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.2)"><span class="dot"></span> Limited early access</div>
-    <h2 class="display reveal text-4xl md:text-6xl font-extrabold text-white mt-6 leading-tight">
+    <h2 class="display reveal text-4xl md:text-6xl font-extrabold text-white mt-2 leading-tight">
       Be first in line when <br>StyleON goes live.
     </h2>
     <p class="reveal text-lg text-white/70 mt-5 max-w-xl mx-auto">
@@ -657,7 +717,7 @@
     </form>
     <div class="reveal mt-6 text-sm text-white/60">No spam. Unsubscribe anytime. We'll only email you when it matters.</div>
 
-    <div class="reveal flex flex-col sm:flex-row gap-3 justify-center mt-10">
+    <div class="reveal grid grid-cols-2 sm:grid-cols-4 gap-3 justify-center mt-10 max-w-3xl mx-auto">
       <a href="#" class="store-badge" style="background:#fff; color:var(--gray)">
         <svg width="22" height="22" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM282.2 87.4c17.6-20.9 16-39.9 15.5-46.7-15.6.9-33.7 10.6-44 22.6-11.4 12.9-18.1 28.9-16.7 46.4 16.9 1.3 32.2-7.4 45.2-22.3z"/></svg>
         <div><div class="ttl">Download on the</div><div class="sub">App Store</div></div>
@@ -665,6 +725,14 @@
       <a href="#" class="store-badge" style="background:#fff; color:var(--gray)">
         <svg width="22" height="22" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>
         <div><div class="ttl">Get it on</div><div class="sub">Google Play</div></div>
+      </a>
+      <a href="#" class="store-badge" style="background:#fff; color:var(--gray)">
+        <svg width="22" height="22" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM282.2 87.4c17.6-20.9 16-39.9 15.5-46.7-15.6.9-33.7 10.6-44 22.6-11.4 12.9-18.1 28.9-16.7 46.4 16.9 1.3 32.2-7.4 45.2-22.3z"/></svg>
+        <div><div class="ttl">Download for</div><div class="sub">Mac</div></div>
+      </a>
+      <a href="#" class="store-badge" style="background:#fff; color:var(--gray)">
+        <svg width="22" height="22" viewBox="0 0 448 512" fill="currentColor"><path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v178zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+        <div><div class="ttl">Download for</div><div class="sub">Windows</div></div>
       </a>
     </div>
   </div>
@@ -717,12 +785,7 @@
     <div class="grid md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
       <div class="md:col-span-2">
         <div class="flex items-center gap-2.5">
-          <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-            <path d="M28 38 L72 28 L80 80 L22 80 Z" stroke="#fff" stroke-width="6" stroke-linejoin="round" fill="none"/>
-            <path d="M40 38 C40 26, 60 26, 60 38" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
-            <circle cx="40" cy="42" r="5" fill="#fff"/>
-            <circle cx="60" cy="42" r="5" fill="#fff"/>
-          </svg>
+          <img src="img/logo.jpg" alt="StyleON" width="40" height="40" style="object-fit:contain; filter:invert(1) brightness(2);" />
           <span class="display font-extrabold text-2xl text-white">StyleON</span>
         </div>
         <p class="text-white/60 mt-4 max-w-sm">The marketplace that brings every store into one place. Rent. List. Deliver. Get paid.</p>
@@ -744,9 +807,8 @@
         </div>
       </div>
     </div>
-    <div class="pt-8 flex flex-col md:flex-row justify-between gap-4 text-sm text-white/50">
+    <div class="pt-8 text-sm text-white/50">
       <div>© 2026 StyleON. All rights reserved.</div>
-      <div>Made with ♥ for sellers and shoppers.</div>
     </div>
   </div>
 </footer>
@@ -768,6 +830,17 @@
       opacity: 1, scale: 1, duration: 1.2, ease: "power3.out",
       scrollTrigger: { trigger: el, start: "top 90%" }
     });
+  });
+
+  // Phone slide-up: bigger travel on mobile so the entrance is felt
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  gsap.set("#phoneWrap", { y: isMobile ? 180 : 80, opacity: 0 });
+  gsap.to("#phoneWrap", {
+    y: 0, opacity: 1,
+    duration: isMobile ? 1.3 : 1.1,
+    ease: "power4.out",
+    delay: isMobile ? 0.1 : 0.25,
+    scrollTrigger: { trigger: "#phoneWrap", start: "top 95%" }
   });
 
   // floating cards drift
@@ -815,7 +888,7 @@
     e.preventDefault();
     const input = e.target.querySelector("input");
     const btn = e.target.querySelector("button");
-    btn.innerHTML = "✓ You're in!";
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> You\'re in!';
     btn.style.background = "#16A34A";
     input.value = "";
     setTimeout(() => {
