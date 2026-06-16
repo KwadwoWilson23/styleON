@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StyleON — One Place. Every Store. Delivered.</title>
+<meta name="description" content="StyleON is the marketplace where sellers rent digital stores and shoppers discover, buy and get items delivered — all in one app. Join the waitlist." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  :root{
+    --white:#FFFFFF;
+    --bg:#F6F7FB;
+    --gray:#2B2F36;       /* dark gray */
+    --gray-soft:#5A6170;
+    --blue:#0B1F4D;       /* dark blue */
+    --blue-2:#0E2A6B;
+    --blue-glow:#1E3FA6;
+    --line:rgba(43,47,54,0.08);
+  }
+  *{ -webkit-font-smoothing:antialiased; }
+  html,body{ background:var(--bg); color:var(--gray); font-family:'Inter',sans-serif; overflow-x:hidden; }
+  .display{ font-family:'Plus Jakarta Sans',sans-serif; letter-spacing:-0.03em; }
+
+  /* gradient mesh background */
+  .mesh{
+    position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  }
+  .mesh::before, .mesh::after{
+    content:""; position:absolute; border-radius:50%; filter:blur(90px); opacity:.55;
+  }
+  .mesh::before{ width:520px; height:520px; left:-160px; top:-160px; background:radial-gradient(circle,#1E3FA6 0%, transparent 70%); }
+  .mesh::after{ width:620px; height:620px; right:-180px; top:80px; background:radial-gradient(circle,#0B1F4D 0%, transparent 70%); opacity:.35; }
+
+  .grid-lines{
+    position:absolute; inset:0; z-index:0;
+    background-image:
+      linear-gradient(to right, rgba(11,31,77,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11,31,77,0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at 50% 30%, black 0%, transparent 70%);
+  }
+
+  .chip{
+    display:inline-flex; align-items:center; gap:.5rem;
+    padding:.45rem .85rem; border-radius:999px;
+    background:rgba(11,31,77,0.06); color:var(--blue);
+    font-size:.78rem; font-weight:600; border:1px solid rgba(11,31,77,0.12);
+  }
+  .chip .dot{ width:6px; height:6px; border-radius:50%; background:#22C55E; box-shadow:0 0 0 4px rgba(34,197,94,.18); animation:pulse 1.8s ease infinite; }
+  @keyframes pulse{ 50%{ box-shadow:0 0 0 8px rgba(34,197,94,0); } }
+
+  .btn-primary{
+    background:var(--blue); color:#fff; padding:.9rem 1.4rem; border-radius:14px; font-weight:600;
+    box-shadow:0 10px 30px -10px rgba(11,31,77,.55); transition:transform .25s ease, box-shadow .25s ease, background .25s;
+    display:inline-flex; align-items:center; gap:.55rem;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 18px 40px -10px rgba(11,31,77,.65); background:var(--blue-2); }
+  .btn-ghost{
+    background:#fff; color:var(--gray); padding:.9rem 1.4rem; border-radius:14px; font-weight:600;
+    border:1px solid var(--line); display:inline-flex; align-items:center; gap:.55rem;
+    transition:all .25s ease;
+  }
+  .btn-ghost:hover{ border-color:rgba(11,31,77,.25); transform:translateY(-2px); }
+
+  /* Store badges */
+  .store-badge{
+    display:inline-flex; align-items:center; gap:.7rem;
+    background:var(--gray); color:#fff; padding:.7rem 1.1rem; border-radius:14px;
+    transition:transform .25s ease, background .25s;
+  }
+  .store-badge:hover{ transform:translateY(-3px); background:#000; }
+  .store-badge .ttl{ font-size:.65rem; opacity:.75; text-transform:uppercase; letter-spacing:.08em; }
+  .store-badge .sub{ font-size:1rem; font-weight:600; line-height:1.1; }
+
+  /* iPhone 15 Pro frame */
+  .phone{
+    position:relative; width:300px; height:610px; margin:auto;
+    background:linear-gradient(135deg,#3a3d44 0%, #1a1c20 25%, #2b2e34 50%, #1a1c20 75%, #3a3d44 100%);
+    border-radius:54px;
+    box-shadow:
+      0 60px 120px -40px rgba(11,31,77,.5),
+      0 30px 60px -20px rgba(0,0,0,.3),
+      inset 0 0 0 1px rgba(255,255,255,.08),
+      inset 0 2px 0 rgba(255,255,255,.05);
+    padding:5px;
+  }
+  /* inner black bezel */
+  .phone-inner{
+    position:relative; width:100%; height:100%;
+    background:#000; border-radius:50px; padding:8px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  /* Dynamic Island */
+  .phone-inner::before{
+    content:""; position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    width:96px; height:30px; background:#000; border-radius:18px; z-index:10;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  /* tiny camera dot in island */
+  .phone-inner::after{
+    content:""; position:absolute; top:23px; left:calc(50% + 28px); transform:translateX(-50%);
+    width:8px; height:8px; background:#0a0a0c; border-radius:50%; z-index:11;
+    box-shadow:inset 0 0 0 1px rgba(80,90,120,.4), 0 0 0 1px rgba(255,255,255,.03);
+  }
+
+  /* side buttons */
+  .phone .btn-side{
+    position:absolute; background:linear-gradient(90deg,#1a1c20,#3a3d44,#1a1c20);
+    border-radius:2px; z-index:1;
+  }
+  .phone .btn-action{ left:-3px; top:90px; width:3px; height:28px; }
+  .phone .btn-vol-up{ left:-3px; top:140px; width:3px; height:48px; }
+  .phone .btn-vol-down{ left:-3px; top:200px; width:3px; height:48px; }
+  .phone .btn-power{ right:-3px; top:160px; width:3px; height:80px; }
+
+  .phone-screen{
+    position:relative; width:100%; height:100%; border-radius:42px; overflow:hidden;
+    background:linear-gradient(180deg,#F6F7FB 0%, #EAEEF7 100%);
+  }
+  .status-bar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 22px 4px; font-size:13px; font-weight:600; color:var(--gray);
+  }
+  .status-bar .right{ display:flex; gap:5px; align-items:center; }
+
+  .app-header{ padding:8px 18px 0; display:flex; justify-content:space-between; align-items:center;}
+  .app-header h3{ font-family:'Plus Jakarta Sans'; font-weight:800; font-size:1.25rem; color:var(--blue); letter-spacing:-.02em;}
+  .app-search{
+    margin:14px 18px 12px; background:#fff; border-radius:14px; padding:.6rem .8rem;
+    display:flex; align-items:center; gap:.5rem; box-shadow:0 4px 14px -8px rgba(11,31,77,.2);
+    font-size:.78rem; color:#9aa1b0;
+  }
+  .cat-row{ display:flex; gap:8px; padding:0 18px 14px; overflow:hidden; }
+  .cat{ background:#fff; padding:.4rem .7rem; border-radius:999px; font-size:.7rem; font-weight:600; color:var(--gray); white-space:nowrap; border:1px solid var(--line); }
+  .cat.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+
+  .store-card{
+    margin:0 18px 12px; padding:.7rem; border-radius:18px; background:#fff;
+    display:flex; gap:.7rem; align-items:center; box-shadow:0 4px 16px -10px rgba(11,31,77,.18);
+  }
+  .store-thumb{ width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg,#0B1F4D,#1E3FA6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-family:'Plus Jakarta Sans'; font-size:.95rem; flex-shrink:0;}
+  .store-card .name{ font-weight:700; font-size:.82rem; color:var(--gray); }
+  .store-card .meta{ font-size:.66rem; color:var(--gray-soft); display:flex; gap:.4rem; align-items:center; margin-top:2px;}
+  .store-card .star{ color:#F59E0B; }
+  .badge-live{ margin-left:auto; background:rgba(34,197,94,.12); color:#16A34A; font-size:.6rem; padding:.2rem .45rem; border-radius:6px; font-weight:700;}
+
+  .products{ display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 18px 18px;}
+  .product{
+    background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 4px 14px -10px rgba(11,31,77,.2);
+  }
+  .product .img{ height:78px; background:linear-gradient(135deg,#E0E7FF,#C7D2FE); position:relative;}
+  .product .img.alt{ background:linear-gradient(135deg,#FCE7F3,#FBCFE8);}
+  .product .img.alt2{ background:linear-gradient(135deg,#FEF3C7,#FDE68A);}
+  .product .img.alt3{ background:linear-gradient(135deg,#D1FAE5,#A7F3D0);}
+  .product .info{ padding:.5rem .6rem .6rem; }
+  .product .info .t{ font-size:.7rem; font-weight:600; color:var(--gray);}
+  .product .info .p{ font-size:.7rem; font-weight:700; color:var(--blue); margin-top:2px;}
+  .heart{ position:absolute; top:6px; right:6px; width:22px; height:22px; background:rgba(255,255,255,.9); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; color:#EF4444;}
+
+  .tabbar{ position:absolute; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--line); padding:10px 22px 24px; display:flex; justify-content:space-between; align-items:center;}
+  .tab{ display:flex; flex-direction:column; align-items:center; font-size:.55rem; color:var(--gray-soft); gap:3px; font-weight:600;}
+  .tab.active{ color:var(--blue);}
+  .tab-icon{ width:22px; height:22px; display:flex; align-items:center; justify-content:center;}
+
+  /* Floating UI cards around phone */
+  .float-card{
+    position:absolute; background:#fff; border-radius:16px; padding:.7rem .85rem;
+    box-shadow:0 20px 50px -20px rgba(11,31,77,.4); display:flex; align-items:center; gap:.6rem;
+    border:1px solid var(--line);
+  }
+  .float-card .ic{ width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .float-card .ttl{ font-size:.7rem; color:var(--gray-soft); font-weight:500;}
+  .float-card .v{ font-size:.95rem; font-weight:700; color:var(--gray);}
+
+  /* feature cards */
+  .feat{
+    background:#fff; border:1px solid var(--line); border-radius:24px; padding:1.75rem;
+    transition:transform .35s ease, box-shadow .35s ease;
+    position:relative; overflow:hidden;
+  }
+  .feat:hover{ transform:translateY(-6px); box-shadow:0 30px 60px -30px rgba(11,31,77,.35);}
+  .feat .icon-wrap{
+    width:54px; height:54px; border-radius:16px;
+    background:linear-gradient(135deg,#0B1F4D,#1E3FA6); color:#fff;
+    display:flex; align-items:center; justify-content:center; margin-bottom:1.1rem;
+  }
+  .feat.dark{ background:var(--gray); color:#fff; }
+  .feat.dark .ttl{ color:#fff;}
+  .feat.dark .desc{ color:rgba(255,255,255,.7);}
+  .feat.dark .icon-wrap{ background:#fff; color:var(--blue);}
+
+  /* marquee */
+  .marquee{ display:flex; gap:3rem; animation:scroll 28s linear infinite; }
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* step */
+  .step-num{
+    width:46px; height:46px; border-radius:14px; background:var(--blue); color:#fff;
+    font-family:'Plus Jakarta Sans'; font-weight:800; font-size:1.15rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* footer */
+  footer{ background:var(--gray); color:#fff;}
+  footer a{ color:rgba(255,255,255,.7); transition:color .2s;}
+  footer a:hover{ color:#fff;}
+
+  /* input */
+  .wait-input{
+    background:#fff; border:1px solid var(--line); border-radius:18px;
+    padding:.4rem; display:flex; gap:.5rem; align-items:center;
+    box-shadow:0 20px 60px -20px rgba(11,31,77,.25);
+  }
+  .wait-input input{ flex:1; background:transparent; padding:.7rem 1rem; outline:none; font-size:.95rem; color:var(--gray);}
+  .wait-input input::placeholder{ color:#9aa1b0;}
+
+  /* shake on hover for logo */
+  .logo-shake:hover svg{ animation: wiggle .6s ease;}
+  @keyframes wiggle{ 0%,100%{transform:rotate(0)} 25%{transform:rotate(-6deg)} 75%{transform:rotate(6deg)} }
+
+  /* section heading */
+  .eyebrow{ color:var(--blue); font-weight:700; text-transform:uppercase; letter-spacing:.12em; font-size:.78rem;}
+
+  /* number ticker */
+  .stat-num{ font-family:'Plus Jakarta Sans'; font-weight:800; font-size:2.2rem; color:var(--blue); letter-spacing:-.03em;}
+
+  /* fade in helper */
+  .reveal{ opacity:0; transform:translateY(28px);}
+  .scale-in{ opacity:0; transform:scale(.94);}
+
+  /* hide scrollbar inside phone if any */
+  .phone *::-webkit-scrollbar{ display:none;}
+
+  @media (max-width: 768px){
+    .phone{ width:260px; height:530px;}
+    .float-card{ padding:.5rem .65rem;}
+    .float-card .v{ font-size:.85rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-white/70 border-b border-black/5">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5 logo-shake">
+      <!-- inline logo -->
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <path d="M28 38 L72 28 L80 80 L22 80 Z" stroke="#0B1F4D" stroke-width="6" stroke-linejoin="round" fill="none"/>
+        <path d="M40 38 C40 26, 60 26, 60 38" stroke="#0B1F4D" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <circle cx="40" cy="42" r="5" fill="#0B1F4D"/>
+        <circle cx="60" cy="42" r="5" fill="#0B1F4D"/>
+      </svg>
+      <span class="display font-extrabold text-xl" style="color:var(--blue)">Style<span style="color:var(--gray)">ON</span></span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium" style="color:var(--gray)">
+      <a href="#how" class="hover:opacity-60 transition">How it works</a>
+      <a href="#features" class="hover:opacity-60 transition">Features</a>
+      <a href="#sellers" class="hover:opacity-60 transition">For Sellers</a>
+      <a href="#faq" class="hover:opacity-60 transition">FAQ</a>
+    </div>
+
+    <a href="#waitlist" class="btn-primary text-sm" style="padding:.65rem 1.1rem">Join Waitlist
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+  <div class="mesh"></div>
+  <div class="grid-lines"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-12 items-center z-10">
+    <!-- LEFT -->
+    <div>
+      <div class="chip reveal"><span class="dot"></span> Launching soon — Waitlist now open</div>
+
+      <h1 class="display reveal mt-6 text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.02]" style="color:var(--gray)">
+        One place. <br>
+        <span style="color:var(--blue)">Every store.</span><br>
+        Delivered to you.
+      </h1>
+
+      <p class="reveal mt-7 text-lg md:text-xl text-[var(--gray-soft)] max-w-xl leading-relaxed">
+        Stop scrolling endless WhatsApp statuses. <span class="font-semibold" style="color:var(--gray)">StyleON</span> brings every fashion seller in your city into one beautiful app — rent a digital store, list your items, and get them delivered to customers' doorsteps.
+      </p>
+
+      <div class="reveal mt-9 flex flex-col sm:flex-row gap-3">
+        <a href="#" class="store-badge">
+          <svg width="22" height="22" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM282.2 87.4c17.6-20.9 16-39.9 15.5-46.7-15.6.9-33.7 10.6-44 22.6-11.4 12.9-18.1 28.9-16.7 46.4 16.9 1.3 32.2-7.4 45.2-22.3z"/></svg>
+          <div>
+            <div class="ttl">Download on the</div>
+            <div class="sub">App Store</div>
+          </div>
+        </a>
+        <a href="#" class="store-badge">
+          <svg width="22" height="22" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>
+          <div>
+            <div class="ttl">Get it on</div>
+            <div class="sub">Google Play</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="reveal mt-10 flex items-center gap-5">
+        <div class="flex -space-x-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 border-2 border-white"></div>
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-700 border-2 border-white"></div>
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white"></div>
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 border-2 border-white"></div>
+        </div>
+        <div>
+          <div class="font-bold" style="color:var(--gray)"><span data-count="2847">0</span>+ on the waitlist</div>
+          <div class="text-xs text-[var(--gray-soft)]">joining from across the country</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: PHONE -->
+    <div class="relative flex justify-center scale-in" id="phoneWrap">
+      <!-- floating card top -->
+      <div class="float-card hidden sm:flex" style="top:30px; left:-10px;" id="floatA">
+        <div class="ic" style="background:rgba(34,197,94,.15); color:#16A34A;">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <div class="ttl">Order delivered</div>
+          <div class="v">In 32 mins</div>
+        </div>
+      </div>
+
+      <!-- floating card right -->
+      <div class="float-card hidden sm:flex" style="top:160px; right:-30px;" id="floatB">
+        <div class="ic" style="background:rgba(11,31,77,.1); color:var(--blue);">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h18l-2 13H5L3 3zM3 3L2 0M16 21a1 1 0 100-2 1 1 0 000 2zM8 21a1 1 0 100-2 1 1 0 000 2z"/></svg>
+        </div>
+        <div>
+          <div class="ttl">New sale</div>
+          <div class="v">+ ₵420.00</div>
+        </div>
+      </div>
+
+      <!-- floating card bottom -->
+      <div class="float-card hidden sm:flex" style="bottom:60px; left:-40px;" id="floatC">
+        <div class="ic" style="background:linear-gradient(135deg,#FCE7F3,#FBCFE8); color:#BE185D;">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <div>
+          <div class="ttl">Wishlisted</div>
+          <div class="v">4.9 ★ rating</div>
+        </div>
+      </div>
+
+      <!-- PHONE -->
+      <div class="phone">
+        <span class="btn-side btn-action"></span>
+        <span class="btn-side btn-vol-up"></span>
+        <span class="btn-side btn-vol-down"></span>
+        <span class="btn-side btn-power"></span>
+        <div class="phone-inner">
+        <div class="phone-screen">
+          <div class="status-bar">
+            <span>9:41</span>
+            <div class="right">
+              <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M1 8h2v2H1zm4-2h2v4H5zm4-2h2v6H9zm4-2h2v8h-2z"/></svg>
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4c1.5-2 4-3 6-3s4.5 1 6 3M3 6c1-1.2 2.5-2 4-2s3 .8 4 2"/><circle cx="7" cy="8.5" r="1" fill="currentColor"/></svg>
+              <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="1" y="1" width="18" height="9" rx="2" stroke="currentColor"/><rect x="3" y="3" width="14" height="5" rx="1" fill="currentColor"/><rect x="20" y="4" width="1.5" height="3" rx=".5" fill="currentColor"/></svg>
+            </div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div style="font-size:.7rem; color:var(--gray-soft); font-weight:500;">Good morning, Ama</div>
+              <h3>Discover Stores</h3>
+            </div>
+            <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#F472B6,#EC4899); display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.78rem;">A</div>
+          </div>
+
+          <div class="app-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            Search "kente two-piece"...
+          </div>
+
+          <div class="cat-row">
+            <div class="cat active">All</div>
+            <div class="cat">Women</div>
+            <div class="cat">Men</div>
+            <div class="cat">Shoes</div>
+            <div class="cat">Bags</div>
+          </div>
+
+          <div class="store-card">
+            <div class="store-thumb">LB</div>
+            <div>
+              <div class="name">Lush Boutique</div>
+              <div class="meta"><span class="star">★</span> 4.9 · 320 sales</div>
+            </div>
+            <span class="badge-live">LIVE</span>
+          </div>
+
+          <div class="products">
+            <div class="product">
+              <div class="img"><div class="heart">♥</div></div>
+              <div class="info"><div class="t">Linen Two-Piece</div><div class="p">₵180</div></div>
+            </div>
+            <div class="product">
+              <div class="img alt"><div class="heart">♥</div></div>
+              <div class="info"><div class="t">Silk Wrap Top</div><div class="p">₵95</div></div>
+            </div>
+            <div class="product">
+              <div class="img alt2"><div class="heart">♥</div></div>
+              <div class="info"><div class="t">Suede Heels</div><div class="p">₵240</div></div>
+            </div>
+            <div class="product">
+              <div class="img alt3"><div class="heart">♥</div></div>
+              <div class="info"><div class="t">Mini Tote</div><div class="p">₵120</div></div>
+            </div>
+          </div>
+
+          <div class="tabbar">
+            <div class="tab active"><div class="tab-icon"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-4v-6h-4v6H6v-9H3z"/></svg></div>Home</div>
+            <div class="tab"><div class="tab-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>Explore</div>
+            <div class="tab"><div class="tab-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg></div>Cart</div>
+            <div class="tab"><div class="tab-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg></div>Profile</div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- trust marquee -->
+  <div class="relative mt-20 max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="text-center text-xs font-semibold tracking-widest text-[var(--gray-soft)] uppercase mb-6">Built for sellers, designed for shoppers</p>
+    <div class="overflow-hidden" style="mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
+      <div class="marquee text-[var(--gray-soft)] font-semibold text-lg whitespace-nowrap">
+        <span>🛍️ Rent a Store</span><span>📦 Same-day Delivery</span><span>💎 Verified Sellers</span><span>📱 Live Drops</span><span>💳 Secure Checkout</span><span>⭐ Buyer Protection</span>
+        <span>🛍️ Rent a Store</span><span>📦 Same-day Delivery</span><span>💎 Verified Sellers</span><span>📱 Live Drops</span><span>💳 Secure Checkout</span><span>⭐ Buyer Protection</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="py-24 lg:py-32 relative">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-2xl reveal">
+      <div class="eyebrow">How it works</div>
+      <h2 class="display mt-3 text-4xl md:text-5xl font-extrabold leading-tight" style="color:var(--gray)">
+        From WhatsApp chaos to <span style="color:var(--blue)">one tidy storefront.</span>
+      </h2>
+      <p class="mt-5 text-lg text-[var(--gray-soft)]">Three steps for sellers. Three taps for shoppers. Everyone wins.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-14">
+      <div class="feat reveal">
+        <div class="step-num mb-5">1</div>
+        <h3 class="display ttl text-2xl font-extrabold" style="color:var(--gray)">Rent your store</h3>
+        <p class="desc mt-3 text-[var(--gray-soft)] leading-relaxed">Sign up, pick a plan, and get a fully branded digital storefront on StyleON — your own page, your own customers.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="step-num mb-5" style="background:var(--gray)">2</div>
+        <h3 class="display ttl text-2xl font-extrabold" style="color:var(--gray)">List your items</h3>
+        <p class="desc mt-3 text-[var(--gray-soft)] leading-relaxed">Upload photos, set prices, and go live in minutes. No more reposting on a hundred WhatsApp statuses every morning.</p>
+      </div>
+      <div class="feat dark reveal">
+        <div class="step-num mb-5" style="background:#fff; color:var(--blue);">3</div>
+        <h3 class="display ttl text-2xl font-extrabold">We deliver. You earn.</h3>
+        <p class="desc mt-3 leading-relaxed">Customers order through the app, our riders pick up from you and deliver to their door. You just count the money.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section id="features" class="py-24 lg:py-32 relative" style="background:#fff">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 reveal">
+      <div class="max-w-2xl">
+        <div class="eyebrow">Why StyleON</div>
+        <h2 class="display mt-3 text-4xl md:text-5xl font-extrabold leading-tight" style="color:var(--gray)">
+          Everything you need, <span style="color:var(--blue)">none of the noise.</span>
+        </h2>
+      </div>
+      <p class="text-[var(--gray-soft)] max-w-md">A complete commerce stack baked into one beautiful experience — for the people who sell and the people who shop.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="feat reveal">
+        <div class="icon-wrap"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></div>
+        <h3 class="display text-xl font-extrabold" style="color:var(--gray)">Your own storefront</h3>
+        <p class="text-[var(--gray-soft)] mt-2">A branded mini-website inside the app — bio, banner, products, reviews. Looks pro from day one.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="icon-wrap"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 3l4 4-9 9H7v-4z"/><path d="M14 5l4 4"/></svg></div>
+        <h3 class="display text-xl font-extrabold" style="color:var(--gray)">Go live in 5 mins</h3>
+        <p class="text-[var(--gray-soft)] mt-2">Snap a photo, set a price, post. Selling is faster than typing a status caption.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="icon-wrap"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4M3 7v10l9 4 9-4V7M3 7l9 4 9-4M12 11v10"/></svg></div>
+        <h3 class="display text-xl font-extrabold" style="color:var(--gray)">Door-to-door delivery</h3>
+        <p class="text-[var(--gray-soft)] mt-2">Our rider network handles pickup and drop-off. No haggling with dispatch riders ever again.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="icon-wrap"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></div>
+        <h3 class="display text-xl font-extrabold" style="color:var(--gray)">Secure payments</h3>
+        <p class="text-[var(--gray-soft)] mt-2">MoMo, card, cash on delivery. Money sits in escrow until your customer says all good.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="icon-wrap"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l9 4v6c0 5-3.5 9-9 10C6.5 21 3 17 3 12V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3 class="display text-xl font-extrabold" style="color:var(--gray)">Verified sellers</h3>
+        <p class="text-[var(--gray-soft)] mt-2">Every store is ID-verified. Reviews are real. Scams have nowhere to hide.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="icon-wrap"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H7l-4 3V6a4 4 0 014-4h10a4 4 0 014 4z"/></svg></div>
+        <h3 class="display text-xl font-extrabold" style="color:var(--gray)">Built-in chat</h3>
+        <p class="text-[var(--gray-soft)] mt-2">Customers ask, you answer — all inside the app. No more chasing DMs across three platforms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOR SELLERS / STATS ============ -->
+<section id="sellers" class="py-24 lg:py-32 relative overflow-hidden" style="background:linear-gradient(180deg,#F6F7FB 0%, #fff 100%)">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="reveal">
+      <div class="eyebrow">For Sellers</div>
+      <h2 class="display mt-3 text-4xl md:text-5xl font-extrabold leading-tight" style="color:var(--gray)">
+        Turn your side hustle into a <span style="color:var(--blue)">real business.</span>
+      </h2>
+      <p class="mt-5 text-lg text-[var(--gray-soft)] leading-relaxed">
+        WhatsApp wasn't built for commerce. Status views don't pay rent. StyleON gives you a real shop with analytics, order management, and customers who can actually find you in a search bar.
+      </p>
+
+      <div class="grid grid-cols-3 gap-6 mt-10">
+        <div>
+          <div class="stat-num"><span data-count="0">0</span>%</div>
+          <div class="text-sm text-[var(--gray-soft)] mt-1">Listing fees</div>
+        </div>
+        <div>
+          <div class="stat-num"><span data-count="24">0</span>/7</div>
+          <div class="text-sm text-[var(--gray-soft)] mt-1">Order tracking</div>
+        </div>
+        <div>
+          <div class="stat-num"><span data-count="5">0</span>★</div>
+          <div class="text-sm text-[var(--gray-soft)] mt-1">Seller support</div>
+        </div>
+      </div>
+
+      <a href="#waitlist" class="btn-primary mt-10">Open my store
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- dashboard mockup -->
+    <div class="reveal">
+      <div class="relative">
+        <div class="rounded-3xl bg-white border border-black/5 p-6 shadow-2xl" style="box-shadow:0 40px 80px -30px rgba(11,31,77,.35)">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider" style="color:var(--gray-soft)">Today's earnings</div>
+              <div class="display text-4xl font-extrabold mt-1" style="color:var(--blue)">₵2,840.00</div>
+            </div>
+            <div class="px-3 py-1.5 rounded-lg text-xs font-bold" style="background:rgba(34,197,94,.12); color:#16A34A">+ 24%</div>
+          </div>
+
+          <!-- mini chart -->
+          <svg viewBox="0 0 300 100" class="w-full h-24">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1E3FA6" stop-opacity=".35"/>
+                <stop offset="100%" stop-color="#1E3FA6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,70 C30,60 50,40 80,45 C110,50 130,20 160,25 C190,30 210,55 240,40 C270,25 290,30 300,20 L300,100 L0,100 Z" fill="url(#g1)"/>
+            <path d="M0,70 C30,60 50,40 80,45 C110,50 130,20 160,25 C190,30 210,55 240,40 C270,25 290,30 300,20" stroke="#0B1F4D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <div class="grid grid-cols-3 gap-3 mt-6">
+            <div class="rounded-xl p-3" style="background:var(--bg)">
+              <div class="text-xs" style="color:var(--gray-soft)">Orders</div>
+              <div class="font-extrabold text-xl display" style="color:var(--gray)">38</div>
+            </div>
+            <div class="rounded-xl p-3" style="background:var(--bg)">
+              <div class="text-xs" style="color:var(--gray-soft)">Visitors</div>
+              <div class="font-extrabold text-xl display" style="color:var(--gray)">1.2k</div>
+            </div>
+            <div class="rounded-xl p-3" style="background:var(--bg)">
+              <div class="text-xs" style="color:var(--gray-soft)">Reviews</div>
+              <div class="font-extrabold text-xl display" style="color:var(--gray)">4.9★</div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-5 border-t border-black/5">
+            <div class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:var(--gray-soft)">Recent orders</div>
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg" style="background:linear-gradient(135deg,#FCE7F3,#FBCFE8)"></div>
+                <div class="flex-1"><div class="text-sm font-semibold" style="color:var(--gray)">Silk Wrap Top</div><div class="text-xs" style="color:var(--gray-soft)">to Kwabena · East Legon</div></div>
+                <div class="text-sm font-bold" style="color:var(--blue)">₵95</div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"></div>
+                <div class="flex-1"><div class="text-sm font-semibold" style="color:var(--gray)">Suede Heels</div><div class="text-xs" style="color:var(--gray-soft)">to Adwoa · Spintex</div></div>
+                <div class="text-sm font-bold" style="color:var(--blue)">₵240</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute -bottom-6 -left-6 float-card" style="position:absolute">
+          <div class="ic" style="background:rgba(11,31,77,.1); color:var(--blue);">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
+          </div>
+          <div>
+            <div class="ttl">New customer</div>
+            <div class="v">+1 just now</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST CTA ============ -->
+<section id="waitlist" class="py-28 lg:py-36 relative overflow-hidden" style="background:var(--blue)">
+  <div class="absolute inset-0 opacity-20">
+    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full" style="background:radial-gradient(circle,#1E3FA6,transparent 70%)"></div>
+    <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full" style="background:radial-gradient(circle,#fff,transparent 70%); opacity:.4"></div>
+  </div>
+
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <div class="chip reveal" style="background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.2)"><span class="dot"></span> Limited early access</div>
+    <h2 class="display reveal text-4xl md:text-6xl font-extrabold text-white mt-6 leading-tight">
+      Be first in line when <br>StyleON goes live.
+    </h2>
+    <p class="reveal text-lg text-white/70 mt-5 max-w-xl mx-auto">
+      Join the waitlist and get free store rental for your first 30 days, plus early-access perks for shoppers.
+    </p>
+
+    <form class="reveal wait-input max-w-md mx-auto mt-10" onsubmit="handleSubmit(event)">
+      <input type="email" placeholder="you@email.com" required />
+      <button class="btn-primary" type="submit" style="background:var(--gray)">
+        Join Waitlist
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+    <div class="reveal mt-6 text-sm text-white/60">No spam. Unsubscribe anytime. We'll only email you when it matters.</div>
+
+    <div class="reveal flex flex-col sm:flex-row gap-3 justify-center mt-10">
+      <a href="#" class="store-badge" style="background:#fff; color:var(--gray)">
+        <svg width="22" height="22" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM282.2 87.4c17.6-20.9 16-39.9 15.5-46.7-15.6.9-33.7 10.6-44 22.6-11.4 12.9-18.1 28.9-16.7 46.4 16.9 1.3 32.2-7.4 45.2-22.3z"/></svg>
+        <div><div class="ttl">Download on the</div><div class="sub">App Store</div></div>
+      </a>
+      <a href="#" class="store-badge" style="background:#fff; color:var(--gray)">
+        <svg width="22" height="22" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>
+        <div><div class="ttl">Get it on</div><div class="sub">Google Play</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="py-24 lg:py-32" style="background:#fff">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <div class="eyebrow">Questions</div>
+      <h2 class="display mt-3 text-4xl md:text-5xl font-extrabold" style="color:var(--gray)">Good questions, real answers.</h2>
+    </div>
+
+    <div class="space-y-3" id="faqList">
+      <div class="feat reveal cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex justify-between items-center">
+          <h3 class="display text-lg font-extrabold" style="color:var(--gray)">When does StyleON launch?</h3>
+          <span class="text-2xl font-light" style="color:var(--blue)">+</span>
+        </div>
+        <p class="faq-a hidden mt-3 text-[var(--gray-soft)]">We're targeting a Q3 public launch with a closed beta first. Waitlist members get invites before anyone else.</p>
+      </div>
+      <div class="feat reveal cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex justify-between items-center">
+          <h3 class="display text-lg font-extrabold" style="color:var(--gray)">How much does it cost to rent a store?</h3>
+          <span class="text-2xl font-light" style="color:var(--blue)">+</span>
+        </div>
+        <p class="faq-a hidden mt-3 text-[var(--gray-soft)]">Plans start small and scale with you. Waitlist members get their first 30 days free, no card required.</p>
+      </div>
+      <div class="feat reveal cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex justify-between items-center">
+          <h3 class="display text-lg font-extrabold" style="color:var(--gray)">Where do you deliver?</h3>
+          <span class="text-2xl font-light" style="color:var(--blue)">+</span>
+        </div>
+        <p class="faq-a hidden mt-3 text-[var(--gray-soft)]">We start in Accra at launch and roll out city by city. Waitlist tells us where to land next.</p>
+      </div>
+      <div class="feat reveal cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex justify-between items-center">
+          <h3 class="display text-lg font-extrabold" style="color:var(--gray)">Is my money safe?</h3>
+          <span class="text-2xl font-light" style="color:var(--blue)">+</span>
+        </div>
+        <p class="faq-a hidden mt-3 text-[var(--gray-soft)]">Yes. Payments sit in escrow and are only released to the seller after the customer confirms receipt. Full buyer protection on every order.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="pt-20 pb-10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2.5">
+          <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+            <path d="M28 38 L72 28 L80 80 L22 80 Z" stroke="#fff" stroke-width="6" stroke-linejoin="round" fill="none"/>
+            <path d="M40 38 C40 26, 60 26, 60 38" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <circle cx="40" cy="42" r="5" fill="#fff"/>
+            <circle cx="60" cy="42" r="5" fill="#fff"/>
+          </svg>
+          <span class="display font-extrabold text-2xl text-white">StyleON</span>
+        </div>
+        <p class="text-white/60 mt-4 max-w-sm">The marketplace that brings every store into one place. Rent. List. Deliver. Get paid.</p>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-widest text-white/40 font-bold mb-4">Product</div>
+        <div class="space-y-3">
+          <a href="#features" class="block">Features</a>
+          <a href="#how" class="block">How it works</a>
+          <a href="#sellers" class="block">For Sellers</a>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-widest text-white/40 font-bold mb-4">Company</div>
+        <div class="space-y-3">
+          <a href="#" class="block">About</a>
+          <a href="#" class="block">Contact</a>
+          <a href="#" class="block">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-col md:flex-row justify-between gap-4 text-sm text-white/50">
+      <div>© 2026 StyleON. All rights reserved.</div>
+      <div>Made with ♥ for sellers and shoppers.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+  // GSAP reveal animations
+  gsap.registerPlugin(ScrollTrigger);
+
+  // hero items
+  gsap.utils.toArray(".reveal").forEach((el, i) => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 1, ease: "power3.out",
+      scrollTrigger: { trigger: el, start: "top 88%" }
+    });
+  });
+  gsap.utils.toArray(".scale-in").forEach(el => {
+    gsap.to(el, {
+      opacity: 1, scale: 1, duration: 1.2, ease: "power3.out",
+      scrollTrigger: { trigger: el, start: "top 90%" }
+    });
+  });
+
+  // floating cards drift
+  gsap.to("#floatA", { y: -10, duration: 2.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+  gsap.to("#floatB", { y: 12, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut", delay: .3 });
+  gsap.to("#floatC", { y: -8, duration: 2.8, repeat: -1, yoyo: true, ease: "sine.inOut", delay: .6 });
+
+  // subtle phone tilt on mouse
+  const phoneWrap = document.getElementById("phoneWrap");
+  phoneWrap.addEventListener("mousemove", (e) => {
+    const r = phoneWrap.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    gsap.to(phoneWrap.querySelector(".phone"), { rotateY: x * 12, rotateX: -y * 12, transformPerspective: 1000, duration: .6, ease: "power2.out" });
+  });
+  phoneWrap.addEventListener("mouseleave", () => {
+    gsap.to(phoneWrap.querySelector(".phone"), { rotateY: 0, rotateX: 0, duration: 1, ease: "power3.out" });
+  });
+
+  // number counters
+  document.querySelectorAll("[data-count]").forEach(el => {
+    const target = +el.dataset.count;
+    ScrollTrigger.create({
+      trigger: el, start: "top 90%",
+      onEnter: () => {
+        const obj = { v: 0 };
+        gsap.to(obj, {
+          v: target, duration: 1.6, ease: "power2.out",
+          onUpdate: () => el.textContent = Math.round(obj.v).toLocaleString()
+        });
+      }
+    });
+  });
+
+  // FAQ toggle
+  function toggleFaq(el){
+    const a = el.querySelector(".faq-a");
+    const sign = el.querySelector("span");
+    a.classList.toggle("hidden");
+    sign.textContent = a.classList.contains("hidden") ? "+" : "−";
+  }
+
+  // waitlist submit
+  function handleSubmit(e){
+    e.preventDefault();
+    const input = e.target.querySelector("input");
+    const btn = e.target.querySelector("button");
+    btn.innerHTML = "✓ You're in!";
+    btn.style.background = "#16A34A";
+    input.value = "";
+    setTimeout(() => {
+      btn.innerHTML = 'Join Waitlist <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+      btn.style.background = "";
+    }, 3000);
+  }
+
+  // smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener("click", e => {
+      const id = a.getAttribute("href");
+      if(id.length > 1){
+        e.preventDefault();
+        document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
